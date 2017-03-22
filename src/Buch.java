@@ -1,11 +1,15 @@
-import java.util.Date;
 
 public class Buch extends Medium{
 	String autor;
 	
 	
-	public Buch( String titel, String genere, float leihgebuehr, String isbn, Date erscheinungsdatum,  String autor) {
-		super(titel, genere, isbn, erscheinungsdatum, leihgebuehr);
+	public Buch(int medienID,String titel, boolean verfuegbarkeit, float leihgebuehr, String autor, String medientyp) {
+		super(medienID, titel, verfuegbarkeit, leihgebuehr, medientyp);
+		this.autor= autor;
+	}
+	
+	public Buch( String titel, boolean verfuegbarkeit, float leihgebuehr, String autor, String medientyp) {
+		super(titel, verfuegbarkeit, leihgebuehr, medientyp);
 		this.autor= autor;
 	}
 

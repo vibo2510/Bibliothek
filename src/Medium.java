@@ -1,30 +1,23 @@
-import java.util.Date;
 
 public class Medium {
-	String mediumID;
+	int mediumID;
 	String titel;
-	String genre;
-	String isbn;
-	Date erscheinungsdatum;
 	boolean verfuegbarkeit;
 	float Leihgebuehr;
+	String medientyp;
 	
-	public Medium(String mediumID, String titel, String genere, String isbn, Date erscheinungsdatum, float leihgebuehr){
+	public Medium(int mediumID, String titel, boolean verfuegbarkeit, float leihgebuehr, String medientyp){
 		this.mediumID= mediumID;
 		this.titel= titel;
-		this.genre= genere;
-		this.isbn= isbn;
-		this.erscheinungsdatum= erscheinungsdatum;
-		this.verfuegbarkeit= true;
+		this.verfuegbarkeit= verfuegbarkeit;
 		this.Leihgebuehr= leihgebuehr;
+		this.medientyp= medientyp;
 	}
-	public Medium( String titel, String genere, String isbn, Date erscheinungsdatum, float leihgebuehr){
+	public Medium( String titel, boolean verfuegbarkeit, float leihgebuehr, String medientyp){
 		this.titel= titel;
-		this.genre= genere;
-		this.isbn= isbn;
-		this.erscheinungsdatum= erscheinungsdatum;
-		this.verfuegbarkeit= true;
+		this.verfuegbarkeit= verfuegbarkeit;
 		this.Leihgebuehr= leihgebuehr;
+		this.medientyp= medientyp;
 	}
 	
 	

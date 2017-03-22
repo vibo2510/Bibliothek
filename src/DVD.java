@@ -1,11 +1,17 @@
-import java.util.Date;
+
 
 public class DVD extends Medium{
 	String regisseur;
 	String hauptdarsteller;
 	
-	public DVD(String mediumID, String titel, String genere, String isbn, Date erscheinungsdatum, int leihgebuehr, String regisseur, String hauptdarsteller) {
-		super(mediumID, titel, genere, isbn, erscheinungsdatum, leihgebuehr);
+	public DVD(int mediumID, String titel, boolean verfuegbarkeit, int leihgebuehr, String regisseur, String hauptdarsteller, String medientyp) {
+		super(mediumID, titel,verfuegbarkeit, leihgebuehr, medientyp);
+		this.regisseur= regisseur;
+		this.hauptdarsteller= hauptdarsteller;
+	}
+	
+	public DVD(String titel, boolean verfuegbarkeit, int leihgebuehr, String regisseur, String hauptdarsteller, String medientyp) {
+		super(titel, verfuegbarkeit, leihgebuehr, medientyp);
 		this.regisseur= regisseur;
 		this.hauptdarsteller= hauptdarsteller;
 	}
