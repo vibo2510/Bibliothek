@@ -1,5 +1,4 @@
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +10,7 @@ public class Bibliothek {
 	String anschrift;
 	Connection connection;
 	PreparedStatement insertMedium;
-	PreparedStatement delteMedium;
+	PreparedStatement deleteMedium;
 	PreparedStatement updateMedium;
 	PreparedStatement searchMediumById;
 	PreparedStatement searchMediumByTitle;
@@ -28,10 +27,10 @@ public class Bibliothek {
 				e.printStackTrace();
 			}
 		 	insertMedium= connection.prepareStatement("insert into Medium(titel, verfuegbarkeit, leihgebuehr,  autor, regisseur, hauptdarsteller, medientyp) values(?,?,?,?,?,?,?)");
-		 	delteMedium= connection.prepareStatement("delete from Medium where mediumid=?");
+		 	deleteMedium= connection.prepareStatement("delete from Medium where mediumid=?");
 		 	updateMedium= connection.prepareStatement("update Medium set titel=?, verfuegbarkeit=?,  leihgebuehr=?, autor=?, regisseur=?, hauptdarsteller=?, medientyp=? where mediumid=?");
 		 	searchMediumById= connection.prepareStatement("select * from Medium where mediumid=?");
-		 	searchMediumByTitle= connection.prepareStatement("select * from Medium where title=?");
+		 	searchMediumByTitle= connection.prepareStatement("select * from Medium where titel=?");
 	}
 	
 	public ArrayList<Medium> sucheMedium(String suchbegriff, Suchtyp s) throws SQLException{
@@ -67,38 +66,57 @@ public class Bibliothek {
 		
 		insertMedium.setString(1, medium.titel);
 		insertMedium.setBoolean(2, medium.verfuegbarkeit);
-		insertMedium.setFloat(3, medium.Leihgebuehr);
+		insertMedium.setFloat(3, medium.leihgebuehr);
 
 		if(medium instanceof Buch){
 			Buch buch = (Buch) medium;
 			insertMedium.setString(4,buch.autor);
 			insertMedium.setString(5,null);
 			insertMedium.setString(6,null);
-			insertMedium.setString(7,buch.medientyp);
 		}
 		if(medium instanceof DVD){
 			DVD dvd = (DVD) medium;
 			insertMedium.setString(4,null);
 			insertMedium.setString(5, dvd.regisseur);
 			insertMedium.setString(6, dvd.hauptdarsteller);
-			insertMedium.setString(7,dvd.medientyp);
 		}
+			insertMedium.setString(7, medium.medientyp);
 		
 		return insertMedium.execute();
 	}
 	
 	public boolean mediumEntfernen(Medium medium) throws SQLException{
-		delteMedium.setInt(1, medium.mediumID);
-		return delteMedium.execute();
+		deleteMedium.setInt(1, medium.mediumID);
+		return deleteMedium.execute();
 	}
 	
-	/*
-	public boolean mediumAendern(Medium medium) throws SQLException{
-		
-			updateMedium.setInt(1, medium.mediumID);
+	
+	public boolean mediumAendern(Medium mediumGeaendert) throws SQLException{
+			updateMedium.setString(1, mediumGeaendert.titel);
+			updateMedium.setBoolean(2, mediumGeaendert.verfuegbarkeit);
+			updateMedium.setFloat(3, mediumGeaendert.leihgebuehr);
+			if(mediumGeaendert instanceof Buch){
+				Buch buch= (Buch) mediumGeaendert;
+				updateMedium.setString(4, buch.autor);
+				updateMedium.setString(5, null);
+				updateMedium.setString(6, null);
+			}
 			
-		
+			if(mediumGeaendert instanceof DVD){
+				DVD dvd= (DVD) mediumGeaendert;
+				updateMedium.setString(4, null);
+				updateMedium.setString(5, dvd.regisseur);
+				updateMedium.setString(6, dvd.hauptdarsteller);
+			}
+			updateMedium.setString(7, mediumGeaendert.medientyp);
+			
+			//für where-Anweisung
+			updateMedium.setInt(8, mediumGeaendert.mediumID);
+			
+			
+		return updateMedium.execute();
 	}
+	/*
 	
 	public boolean verleihEintragen(){
 		
@@ -117,15 +135,11 @@ public class Bibliothek {
 	}*/
 	public static void main(String[] args) throws ClassNotFoundException, SQLException{
 		Bibliothek bib = new Bibliothek("HFU","Furtwangen");
-		Date d = new Date(2016,10,3);
-		Buch buch = new Buch(2,"harry potter 2",true,0.5F,"J.K.Roling","Buch");
-		/*
-		try {
-			bib.mediumHinzufuegen(buch);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+		Buch buch = new Buch(3,"harry potter 2",true,0.5F,"J.K.Roling","Buch");
+		
+		
+		//bib.mediumHinzufuegen(buch);
+	
 		bib.mediumEntfernen(buch);
 	
 	}
