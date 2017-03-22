@@ -51,7 +51,7 @@ public class Bibliothek {
 				searchMediumByTitle.setString(1, suchbegriff);
 				result=searchMediumById.executeQuery();
 				while(result.next()){	
-					medien.add(new Medium());
+					medien.add(new DVD(result.getInt("mediumid"),result.getString("titel"), result.getBoolean("verfuegbarkeit"), result.getFloat("leihgebuehr"), result.getString("regisseur"), result.getString("hauptdarsteller"), result.getString("medientyp")));
 				}
 			break;
 		}
@@ -118,7 +118,7 @@ public class Bibliothek {
 	public static void main(String[] args) throws ClassNotFoundException, SQLException{
 		Bibliothek bib = new Bibliothek("HFU","Furtwangen");
 		Date d = new Date(2016,10,3);
-		Buch buch = new Buch(2,"harry potter 2",0.5F,"J.K.Roling","Buch");
+		Buch buch = new Buch(2,"harry potter 2",true,0.5F,"J.K.Roling","Buch");
 		/*
 		try {
 			bib.mediumHinzufuegen(buch);
